@@ -11,15 +11,17 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
 <script>
+import { onMounted, onUnmounted, ref, computed } from "vue";
+import { useStore } from "vuex";
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-
 import Navbar from "../components/Navbar";
-import { onMounted, ref } from "vue";
+
+import { db } from "./../firebase";
+import { firebaseDocToObject } from "./../libs/helpers";
 
 export default {
   name: 'Home',
@@ -27,8 +29,33 @@ export default {
     Navbar,
   },
   setup() {
-    const editor = ref(null);
+    const store = useStore();
+    const uid = store.getters.uid;
 
+    let unsubscribe = null;
+    onMounted(() => {
+      unsubscribe = db
+        .collection('notepads')
+        .where("uid", "==", uid)
+        .orderBy('name')
+        .onSnapshot(
+          snap => {
+            const items = snap.docs.map(doc => firebaseDocToObject(doc));
+            store.dispatch('setNotepads', items);
+          },
+          err => {
+            console.log(err);
+          },
+        );
+    });
+
+    onUnmounted(() => {
+      if (unsubscribe != null) {
+        unsubscribe();
+      }
+    });
+
+    const editor = ref(null);
     onMounted(() => {
       console.log(editor.value);
 
@@ -56,9 +83,7 @@ export default {
 
 
 <style scoped>
-
 .vh-without-navbar {
   height: calc(100vh - 56px);
 }
-
 </style>
