@@ -7,10 +7,19 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@popperjs/core": "^2.9.3",
+    "@sweetalert2/theme-dark": "^5.0.2",
+    "bootstrap": "^5.1.0",
     "core-js": "^3.6.5",
+    "firebase": "^8.9.0",
+    "lodash": "^4.17.21",
+    "monaco-editor": "^0.26.1",
+    "sweetalert2": "^11.1.2",
+    "vee-validate": "^4.4.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
