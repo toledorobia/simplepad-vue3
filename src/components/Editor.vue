@@ -13,15 +13,19 @@ export default {
     content: { type: String, default: "" },
     debounce: { type: Number, default: 0 },
   },
-  emits: ['update:content'],
+  emits: ['update:content', 'debounce:content'],
   setup(props, { emit }) {
     const editor = ref(null);
     const isChangeFromProp = ref(false);
 
-    const updateContent = _.debounce((value) => {
-      console.log("update final", value);
-      emit('update:content', value);
+    const debounceContent = _.debounce((value) => {
+      emit('debounce:content', value);
     }, props.debounce);
+
+    const updateContent = (value) => {
+      emit('update:content', value);
+      debounceContent(value);
+    };
 
     let stopEffect = null;
     let monacoEditor = null;
@@ -41,7 +45,8 @@ export default {
 
       monacoEditor.onDidChangeModelContent(event => {
         if (!isChangeFromProp.value) {
-          updateContent(monacoEditor.getValue());
+          const value = monacoEditor.getValue();
+          updateContent(value);
         }
 
         isChangeFromProp.value = false;

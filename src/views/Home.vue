@@ -26,7 +26,7 @@
       </div>
 
       <div v-if="notepad != null" class="w-75 sp-editor-container">
-        <Editor :content="content" :debounce="2000" @update:content="onContentChange" />
+        <Editor :content="notepad.content" :debounce="2000" @update:content="onContentChange" @debounce:content="onContentDebounce" />
       </div>
     </div>
   </div>
@@ -54,25 +54,21 @@ export default {
     const uid = store.getters.uid;
 
     const notepad = computed(() => {
-      console.log("notepad computed", store.getters.notepad);
-
-      if (store.getters.notepad != null) {
-        console.log("selected notepad", store.getters.notepad.name);
-      }
-
       return store.getters.notepad;
     });
 
     const content = computed(() => {
-      console.log("content computed", notepad.value);
-      return notepad.value == null ? "" : notepad.value.content;
+      return store.getters.notepad.value == null ? "" : store.getters.notepad.value.content;
     });
 
     const notepads = computed(() => store.getters.notepads);
-    
-
+  
     const onContentChange = (content) => {
-      console.log("content changed", content);
+      store.dispatch("toggleNotepadSave", false);
+    };
+
+    const onContentDebounce = (content) => {
+      store.dispatch("updateNotepad", { content });
     };
 
     let unsubscribe = null;
@@ -103,6 +99,7 @@ export default {
       notepad,
       notepads,
       onContentChange,
+      onContentDebounce,
     }
 
   }
