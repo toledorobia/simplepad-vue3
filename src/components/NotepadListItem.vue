@@ -1,47 +1,78 @@
-<template>
-  <div class="d-flex">
-      <button type="button" :class="[className, 'w-90']" v-on:click="onSelectNotepad">
-        <i v-if="!notepad.saved" class="bi bi-cloud me-2"></i>
-        <i v-if="notepad.saved" class="bi bi-cloud-check me-2"></i>
-        {{ notepad.name }}
-      </button>
-      <button type="button" :class="[className, 'flex-shrink-1 text-center']"><i class="bi-gear-fill"></i></button>
-    </div>
-</template>
-
-<script>
-import { computed, ref } from 'vue';
+<script setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-export default {
-  name: "NotepadListItem",
-  props: {
-    notepad: { type: Object, required: true },
-  },
-  setup(props) {
-    const store = useStore();
+import { modalInputWithDelete, modalLoading, modalClose } from "../libs/modal";
+import { toastError } from "../libs/toast";
 
-    const currentNotepad = computed(() => store.getters.notepad);
-    const className = computed(() => {
-      if (currentNotepad == null) {
-        return "btn btn-list";
+const props = defineProps({
+  notepad: { type: Object, required: true },
+  current: { type: Object },
+})
+
+const store = useStore();
+
+const className = computed(() => {
+  if (props.current == null) {
+    return "btn btn-list";
+  }
+
+  return props.current.id == props.notepad.id ? "btn btn-list active" : "btn btn-list";
+});
+
+const onSelectNotepad = () => {
+  store.commit("setNotepad", props.notepad);
+};
+
+const onEditNotepad = async () => {
+  const response = await modalInputWithDelete(
+    props.notepad.name,
+    "Edit Simplepad",
+    "Name of the Simplepad",
+    (value) => {
+      if (value.length == 0) {
+        return "You must enter a name.";
       }
+    }
+  );
 
-      return currentNotepad.id == props.notepad.id ? "btn btn-list active" : "btn btn-list";
-    });
+  if (response.isConfirmed) {
+    try {
+      modalLoading();
+      await store.dispatch("updateNotepad", { id: props.notepad.id, name: response.value });
+      modalClose();
+    } catch (error) {
+      console.log(error);
+      modalClose();
+      toastError(error);
+    }
+  }
 
-    const onSelectNotepad = () => {
-      store.commit("setNotepad", props.notepad);
-    };
+  if (response.isDenied) {
+    try {
+      const response2 = await modalConfirm("Delete Simplepad", "Are you sure you want to delete this Simplepad?");
 
-    return {
-      notepad: props.notepad,
-      className,
-      onSelectNotepad,
+      if (response2.isConfirmed) {
+        modalLoading();
+        await store.dispatch("deleteNotepad", props.notepad.id);
+        modalClose();
+      }
+    } catch (error) {
+      console.log(error);
+      modalClose();
+      toastError(error);
     }
   }
 };
 </script>
 
-<style scoped>
-</style>
+<template>
+  <div class="d-flex">
+    <button type="button" :class="[className, 'w-90']" v-on:click="onSelectNotepad">
+      <i v-if="!notepad.saved" class="bi bi-cloud me-2"></i>
+      <i v-if="notepad.saved" class="bi bi-cloud-check me-2"></i>
+      {{ notepad.name }}
+    </button>
+    <button type="button" :class="[className, 'flex-shrink-1 text-center']" v-on:click="onEditNotepad"><i class="bi-gear-fill"></i></button>
+  </div>
+</template>

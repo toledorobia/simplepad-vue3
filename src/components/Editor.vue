@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, onUnmounted, watchEffect } from "vue";
+import { ref, onMounted, onUnmounted, watchEffect } from "vue";
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import _ from 'lodash';
 

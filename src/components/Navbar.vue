@@ -1,3 +1,22 @@
+<script setup>
+import { useStore } from "vuex";
+import { useRouter } from 'vue-router';
+import { toastError } from "../libs/toast";
+
+const store = useStore();
+const router = useRouter();
+const user = store.getters.user;
+
+const signOut = async () => {
+  try {
+    await store.dispatch("signOut");
+    router.replace("/sign-in");
+  } catch (e) {
+    toastError(e);
+  }
+};
+</script>
+
 <template>
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top shadow">
     <div class="container-fluid">
@@ -23,36 +42,3 @@
     </div>
   </nav>
 </template>
-
-<script>
-
-import { useStore } from "vuex";
-import { useRouter } from 'vue-router';
-import { toastError } from "../libs/toast";
-
-export default {
-  name: "Navbar",
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const user = store.getters.user;
-
-    const signOut = async () => {
-      try {
-        await store.dispatch("signOut");
-        router.replace("/sign-in");
-      } catch (e) {
-        toastError(e);
-      }
-    };
-
-    return {
-      user,
-      signOut,
-    }
-  }
-};
-</script>
-
-<style scoped>
-</style>

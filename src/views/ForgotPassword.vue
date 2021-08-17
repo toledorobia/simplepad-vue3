@@ -1,3 +1,34 @@
+<script setup>
+import { useStore } from "vuex";
+import { useRouter } from 'vue-router'
+import { useForm, useField } from "vee-validate";
+import * as yup from "yup";
+import { toastError, toastInfo } from "../libs/toast";
+
+const store = useStore();
+const router = useRouter();
+
+const schema = yup.object({
+  email: yup.string().required().email().label("Email"),
+});
+
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema: schema,
+});
+
+const { value: email, errorMessage: emailError } = useField("email");
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await store.dispatch("forgotPassword", values);
+    toastInfo("Password reset email sent, check your inbox.");
+    router.replace("/sign-in");
+  }
+  catch (e) {
+    toastError(e);
+  }
+});
+</script>
+
 <template>
   <div class="container">
     <div class="row vh-100 justify-content-center align-items-center">
@@ -20,46 +51,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { useStore } from "vuex";
-import { useRouter } from 'vue-router'
-import { useForm, useField } from "vee-validate";
-import * as yup from "yup";
-import { toastError, toastInfo } from "../libs/toast";
-
-export default {
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-
-    const schema = yup.object({
-      email: yup.string().required().email().label("Email"),
-    });
-
-    const { handleSubmit, isSubmitting } = useForm({
-      validationSchema: schema,
-    });
-
-    const { value: email, errorMessage: emailError } = useField("email");
-    const onSubmit = handleSubmit(async (values) => {
-      try {
-        await store.dispatch("forgotPassword", values);
-        toastInfo("Password reset email sent, check your inbox.");
-        router.replace("/sign-in");
-      }
-      catch (e) {
-        toastError(e);
-      }
-    });
-
-    return {
-      email,
-      emailError,
-      isSubmitting,
-      onSubmit,
-    };
-  },
-};
-</script>
-

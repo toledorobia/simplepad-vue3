@@ -11,15 +11,15 @@
     "@sweetalert2/theme-dark": "^5.0.2",
     "bootstrap": "^5.1.0",
     "bootstrap-icons": "^1.5.0",
-    "core-js": "^3.6.5",
-    "firebase": "^8.9.0",
+    "core-js": "^3.16.1",
+    "firebase": "^8.9.1",
     "lodash": "^4.17.21",
     "monaco-editor": "^0.26.1",
     "sweetalert2": "^11.1.2",
     "vee-validate": "^4.4.9",
-    "vue": "^3.0.0",
+    "vue": "^3.2.2",
     "vue-monaco": "^1.2.2",
-    "vue-router": "^4.0.0-0",
+    "vue-router": "^4.0.11",
     "vuex": "^4.0.0-0",
     "yup": "^0.32.9"
   },
@@ -28,7 +28,7 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.2.2",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2"
   }
