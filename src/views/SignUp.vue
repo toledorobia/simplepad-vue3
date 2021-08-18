@@ -3,7 +3,7 @@ import { useStore } from "vuex";
 import { useRouter } from 'vue-router'
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
-import { toastError, toastSuccess } from "../libs/toast";
+import { toastError, toastSuccess } from "@toledorobia/helpers";
 
 const store = useStore();
 const router = useRouter();

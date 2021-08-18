@@ -1,7 +1,7 @@
 <script setup>
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
-import { toastError } from "../libs/toast";
+import { toastError } from "@toledorobia/helpers";
 
 const store = useStore();
 const router = useRouter();

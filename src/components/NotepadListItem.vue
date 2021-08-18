@@ -2,9 +2,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-import { modalInputWithDelete, modalLoading, modalClose, modalConfirm } from "../libs/modal";
-import { toastError } from "../libs/toast";
-import { cl } from "../libs/dump";
+import { modalInputWithDelete, modalLoading, modalClose, modalConfirm, toastError, cl } from "@toledorobia/helpers";
 
 const props = defineProps({
   notepad: { type: Object, required: true },

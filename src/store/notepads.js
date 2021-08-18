@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import { db } from "../firebase";
-import { firebaseDateNow, isSomethingWithId } from "../libs/helpers";
-import { cl } from "../libs/dump";
+import { firebaseDateNow } from "../libs/helpers";
+import { cl, isSomethingWithId } from "@toledorobia/helpers";
 
 export default {
   // namespaced: true,

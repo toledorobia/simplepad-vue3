@@ -6,8 +6,7 @@ import NotepadList from "../components/NotepadList";
 import Editor from "../components/Editor";
 
 import { db } from "./../firebase";
-import { firebaseDocToObject } from "./../libs/helpers";
-import { cl } from "./../libs/dump";
+import { firebaseDocToObject, cl } from "@toledorobia/helpers";
 
 const store = useStore();
 const uid = store.getters.uid;

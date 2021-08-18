@@ -7,11 +7,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./main.scss";
 
 import { auth } from './firebase';
-import { clearFirebaseUser } from "./libs/helpers";
+import { firebaseClearUser } from "@toledorobia/helpers";
 
 let app = null;
 auth.onAuthStateChanged((user) => {
-  store.dispatch("setAuth", clearFirebaseUser(user));
+  store.dispatch("setAuth", firebaseClearUser(user));
 
   if (app == null) {
     app = createApp(App)

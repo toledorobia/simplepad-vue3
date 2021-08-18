@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted, watchEffect } from "vue";
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import _ from 'lodash';
-import { cl } from "../libs/dump";
+import { cl } from "@toledorobia/helpers";
 
 const props = defineProps({
   content: { type: String, default: "" },

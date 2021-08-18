@@ -1,9 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import { modalInput, modalLoading, modalClose } from "../libs/modal";
-import { toastError } from "../libs/toast";
-import { cl } from "../libs/dump";
+import { cl, toastError, modalInput, modalLoading, modalClose } from "@toledorobia/helpers";
 import NotepadListItem from './NotepadListItem.vue';
 
 const store = useStore();
