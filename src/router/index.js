@@ -51,7 +51,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to);
   let auth = to.matched.some(record => record.meta.auth);
   let title = to.meta && to.meta.title ? to.meta.title : 'Home';
   window.document.title = process.env.VUE_APP_NAME + ' - ' + title;

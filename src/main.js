@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./main.scss";
 
 import { auth } from './firebase';
-import { clearFirebaseUser } from "./libs/helpers"; 
+import { clearFirebaseUser } from "./libs/helpers";
 
 let app = null;
 auth.onAuthStateChanged((user) => {

@@ -9,7 +9,7 @@ export default {
   }),
   getters: {
     uid: state => {
-      return state.user.uid;
+      return state.user == null ? null : state.user.uid;
     },
     user: state => {
       return state.user;

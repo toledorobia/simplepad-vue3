@@ -2,13 +2,14 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-import { modalInputWithDelete, modalLoading, modalClose } from "../libs/modal";
+import { modalInputWithDelete, modalLoading, modalClose, modalConfirm } from "../libs/modal";
 import { toastError } from "../libs/toast";
+import { cl } from "../libs/dump";
 
 const props = defineProps({
   notepad: { type: Object, required: true },
-  current: { type: Object },
-})
+  current: { type: String },
+});
 
 const store = useStore();
 
@@ -17,11 +18,11 @@ const className = computed(() => {
     return "btn btn-list";
   }
 
-  return props.current.id == props.notepad.id ? "btn btn-list active" : "btn btn-list";
+  return props.current == props.notepad.id ? "btn btn-list active" : "btn btn-list";
 });
 
 const onSelectNotepad = () => {
-  store.commit("setNotepad", props.notepad);
+  store.dispatch("selectNotepadWithContent", props.notepad.id);
 };
 
 const onEditNotepad = async () => {
@@ -42,7 +43,7 @@ const onEditNotepad = async () => {
       await store.dispatch("updateNotepad", { id: props.notepad.id, name: response.value });
       modalClose();
     } catch (error) {
-      console.log(error);
+      cl(error);
       modalClose();
       toastError(error);
     }
@@ -58,7 +59,7 @@ const onEditNotepad = async () => {
         modalClose();
       }
     } catch (error) {
-      console.log(error);
+      cl(error);
       modalClose();
       toastError(error);
     }

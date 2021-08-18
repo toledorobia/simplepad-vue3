@@ -2,6 +2,8 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { modalInput, modalLoading, modalClose } from "../libs/modal";
+import { toastError } from "../libs/toast";
+import { cl } from "../libs/dump";
 import NotepadListItem from './NotepadListItem.vue';
 
 const store = useStore();
@@ -24,7 +26,7 @@ const notepadsLoaded = computed(() => {
   return notepads.value != null;
 });
 
-const notepad = computed(() => store.getters.notepad);
+const notepadId = computed(() => store.getters.notepadId);
 
 const onNewNotepad = async () => {
   const response = await modalInput(
@@ -45,14 +47,17 @@ const onNewNotepad = async () => {
   try {
     modalLoading("Saving new simplepad...");
 
-    const res = await newNotepad({
+    await store.dispatch("newNotepad", {
+      uid: store.getters.uid,
       name: response.value,
       language: "plaintext",
     });
 
     modalClose();
   } catch (error) {
-    console.log(error);
+    cl(error);
+    modalClose();
+    toastError(error);
   }
 };
 </script>
@@ -71,7 +76,7 @@ const onNewNotepad = async () => {
 
     <div v-if="notepadsLoaded" class="border-left-grey overflow-auto">
       <div class="border-0 rounded-0">
-        <NotepadListItem v-for="n in notepadsFilter" :key="n.id" :notepad="n" :current="notepad" />
+        <NotepadListItem v-for="n in notepadsFilter" :key="n.id" :notepad="n" :current="notepadId" />
       </div>
     </div>
   </div>

@@ -7,46 +7,64 @@ import Editor from "../components/Editor";
 
 import { db } from "./../firebase";
 import { firebaseDocToObject } from "./../libs/helpers";
+import { cl } from "./../libs/dump";
 
 const store = useStore();
 const uid = store.getters.uid;
-const notepad = computed(() => store.getters.notepad);
+const content = computed(() => store.getters.content);
+const isNotepadSelected = computed(() => store.getters.notepadId != null);
 
 const onContentChange = (content) => {
-  store.dispatch("toggleNotepadSave", false);
+  store.dispatch("putNotepadUpdate", { id: store.getters.notepadId, content });
 };
 
 const onContentDebounce = (content) => {
-  store.dispatch("updateNotepad", { id: notepad.value.id, content });
+  //store.dispatch("updateNotepad", { id: notepad.value.id, content });
 };
 
 let unsubscribe = null;
+let interval = null;
 onMounted(() => {
+  cl("onMounted");
+
+  interval = setInterval(async () => {
+    try {
+      await store.dispatch("triggerRequests");
+    } catch (e) {
+      console.error(e);
+    }
+  }, 2000);
+
+
   unsubscribe = db
     .collection('notepads')
     .where("uid", "==", uid)
     .orderBy('name')
     .onSnapshot(
       snap => {
-        console.log("onsnapshot");
+        cl("onsnapshot");
 
-        const items = snap.docs.map(doc => firebaseDocToObject(doc, { saved: true }));
-        store.commit('setNotepads', items);
+        const items = snap.docs.map(doc => firebaseDocToObject(doc, { current: false, saved: true }));
+        store.dispatch('setNotepads', items);
       },
       err => {
-        console.log(err);
+        cl(err);
       },
     );
 });
 
 onUnmounted(() => {
+  cl("onUnmounted");
+
+  if (interval != null) {
+    clearInterval(interval);
+  }
+
   if (unsubscribe != null) {
     unsubscribe();
   }
 });
-
 </script>
-
 
 <template>
   <div class="d-flex vw-100 vh-100 flex-column">
@@ -55,12 +73,12 @@ onUnmounted(() => {
 
       <NotepadList />
 
-      <div v-if="notepad == null" class="d-flex justify-content-center align-items-center w-75 sp-editor-container text-muted">
+      <div v-if="!isNotepadSelected" class="d-flex justify-content-center align-items-center w-75 sp-editor-container text-muted">
         <div>Select a simplepad</div>
       </div>
 
-      <div v-if="notepad != null" class="w-75 sp-editor-container">
-        <Editor :content="notepad.content" :debounce="2000" @update:content="onContentChange" @debounce:content="onContentDebounce" />
+      <div v-if="isNotepadSelected" class="w-75 sp-editor-container">
+        <Editor :content="content" :debounce="2000" @update:content="onContentChange" @debounce:content="onContentDebounce" />
       </div>
     </div>
   </div>
