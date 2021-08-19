@@ -17,6 +17,7 @@ export default {
     notepad: state => state.notepads == null ? null : state.notepads.find(n => n.current == true),
     notepads: state => state.notepads,
     notepadId: (state, getters) => getters.notepad == null ? null : getters.notepad.id,
+    anyRequest: (state) => state.requests.length > 0,
   },
   mutations: {
     setId(state, payload) {

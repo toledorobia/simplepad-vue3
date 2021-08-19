@@ -21,10 +21,18 @@ const onContentDebounce = (content) => {
   //store.dispatch("updateNotepad", { id: notepad.value.id, content });
 };
 
+const confirmBeforeExit = (e) => {
+  cl("confirmBeforeExit anyRequest", store.getters.anyRequest);
+  if (store.getters.anyRequest) {
+    e.returnValue = "Some simplepads have not been saved. Are you sure you want to exit the application?";
+  }
+}
+
 let unsubscribe = null;
 let interval = null;
 onMounted(() => {
   cl("onMounted");
+  window.addEventListener("beforeunload", confirmBeforeExit);
 
   interval = setInterval(async () => {
     try {
@@ -32,7 +40,7 @@ onMounted(() => {
     } catch (e) {
       console.error(e);
     }
-  }, 2000);
+  }, 5000);
 
 
   unsubscribe = db
@@ -54,6 +62,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   cl("onUnmounted");
+  window.removeEventListener("beforeunload", confirmBeforeExit);
 
   if (interval != null) {
     clearInterval(interval);
