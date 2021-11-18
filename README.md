@@ -1,20 +1,14 @@
-# Simplepad
+# Vue Simplepad
 
-A very simple notepad built over VueJS 3.2 and Firebase
+An application to take notes, built in VueJS 3.2.
 
-## Description
+## Project Status
 
-Simplepad is an online notepad for taking notes. You can create as many simplepads as you want, but the size limit of each simplepad is 0.9 mb.
+- Pending unit and functional tests.
+- Pending i18n.
+- Pending the encryption of the content of the simplepads, because I have not found a keystore service with free quota.
+- Pending optimization and data query encapsulation.
 
-## To-Do
+## Demo
 
-* Unit Test
-* Better UI
-
-### Demo
-
-[Here](https://simplepad-app.web.app)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details
+URL: https://vue-simplepad.web.app
