@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from "vuex";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import { toastError } from "@toledorobia/helpers";
 
 const store = useStore();
@@ -20,8 +20,18 @@ const signOut = async () => {
 <template>
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top shadow">
     <div class="container-fluid">
-      <a class="navbar-brand" href="!#">Simplepad</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="!#"
+        ><small class="text-muted"> Vue </small>Simplepad</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,9 +42,21 @@ const signOut = async () => {
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="!#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.email }}</a>
+            <a
+              class="nav-link dropdown-toggle"
+              href="!#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >{{ user.email }}</a
+            >
             <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown">
-              <li><button class="dropdown-item" v-on:click="signOut">Sign Out</button></li>
+              <li>
+                <button class="dropdown-item" v-on:click="signOut">
+                  Sign Out
+                </button>
+              </li>
             </ul>
           </li>
         </ul>
