@@ -1,17 +1,29 @@
 <script setup>
 import { useStore } from "vuex";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import { toastError } from "@toledorobia/helpers";
+import AppAuthLogo from "../components/AppAuthLogo";
 
 const store = useStore();
 const router = useRouter();
 
 const schema = yup.object({
-  email: yup.string().required().email().label("Email"),
-  password: yup.string().required().min(6).label("Password"),
-  remember: yup.boolean().default(false).label("Remember me")
+  email: yup
+    .string()
+    .required()
+    .email()
+    .label("Email"),
+  password: yup
+    .string()
+    .required()
+    .min(6)
+    .label("Password"),
+  remember: yup
+    .boolean()
+    .default(false)
+    .label("Remember me"),
 });
 
 const { handleSubmit, isSubmitting } = useForm({
@@ -26,8 +38,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     await store.dispatch("signIn", values);
     router.replace("/home");
-  }
-  catch (e) {
+  } catch (e) {
     toastError(e);
   }
 });
@@ -37,27 +48,53 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="container">
     <div class="row vh-100 justify-content-center align-items-center">
       <div class="col-md-4">
-        <h1 class="text-center mb-5">Simplepad</h1>
+        <AppAuthLogo />
 
         <div class="form-floating mb-3">
-          <input type="email" id="email" class="form-control" placeholder="name@example.com" v-model.trim="email" :disabled="isSubmitting" />
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            placeholder="name@example.com"
+            v-model.trim="email"
+            :disabled="isSubmitting"
+          />
           <label for="email">Email address</label>
           <div class="form-text text-danger">{{ emailError }}</div>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" placeholder="Password" v-model.trim="password" :disabled="isSubmitting" />
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            v-model.trim="password"
+            :disabled="isSubmitting"
+          />
           <label for="password">Password</label>
           <div class="form-text text-danger">{{ passwordError }}</div>
         </div>
 
         <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="remember" v-model="remember" :disabled="isSubmitting" />
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="remember"
+            v-model="remember"
+            :disabled="isSubmitting"
+          />
           <label class="form-check-label" for="remember">
             Remember me
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg w-100 mt-3" v-on:click="onSubmit">Sign In</button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg w-100 mt-3"
+          v-on:click="onSubmit"
+        >
+          Sign In
+        </button>
 
         <div class="mt-2 text-end">
           <router-link to="/forgot-password">Forgot Password?</router-link>
