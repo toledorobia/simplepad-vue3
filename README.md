@@ -1,19 +1,14 @@
-# simplepad-vue3
+# Vue Simplepad
 
-## Project setup
-```
-npm install
-```
+An application to take notes, built in VueJS 3.2.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Project Status
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Pending unit and functional tests.
+- Pending i18n.
+- Pending the encryption of the content of the simplepads, because I have not found a keystore service with free quota.
+- Pending optimization and data query encapsulation.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Demo
+
+URL: https://vue-simplepad.web.app
