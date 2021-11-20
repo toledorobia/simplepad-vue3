@@ -41,7 +41,6 @@ const onEditNotepad = async () => {
       await store.dispatch("updateNotepad", { id: props.notepad.id, name: response.value });
       modalClose();
     } catch (error) {
-      cl(error);
       modalClose();
       toastError(error);
     }
@@ -57,7 +56,6 @@ const onEditNotepad = async () => {
         modalClose();
       }
     } catch (error) {
-      cl(error);
       modalClose();
       toastError(error);
     }
@@ -67,9 +65,8 @@ const onEditNotepad = async () => {
 
 <template>
   <div class="d-flex">
-    <button type="button" :class="[className, 'w-90']" v-on:click="onSelectNotepad">
-      <i v-if="!notepad.saved" class="bi bi-cloud me-2"></i>
-      <i v-if="notepad.saved" class="bi bi-cloud-check me-2"></i>
+    <button type="button" :class="[className, 'w-90']" v-on:click="onSelectNotepad" title="Open simplepad">
+      <i className="bi bi-file-earmark-text-fill me-2"></i>
       {{ notepad.name }}
     </button>
     <button type="button" :class="[className, 'flex-shrink-1 text-center']" v-on:click="onEditNotepad"><i class="bi-gear-fill"></i></button>

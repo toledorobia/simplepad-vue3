@@ -24,9 +24,10 @@ const onContentDebounce = (content) => {
 const confirmBeforeExit = (e) => {
   cl("confirmBeforeExit anyRequest", store.getters.anyRequest);
   if (store.getters.anyRequest) {
-    e.returnValue = "Some simplepads have not been saved. Are you sure you want to exit the application?";
+    e.returnValue =
+      "Some simplepads have not been saved. Are you sure you want to exit the application?";
   }
-}
+};
 
 let unsubscribe = null;
 let interval = null;
@@ -42,21 +43,22 @@ onMounted(() => {
     }
   }, 5000);
 
-
   unsubscribe = db
-    .collection('notepads')
+    .collection("notepads")
     .where("uid", "==", uid)
-    .orderBy('name')
+    .orderBy("name")
     .onSnapshot(
-      snap => {
+      (snap) => {
         cl("onsnapshot");
 
-        const items = snap.docs.map(doc => firebaseDocToObject(doc, { current: false, saved: true }));
-        store.dispatch('setNotepads', items);
+        const items = snap.docs.map((doc) =>
+          firebaseDocToObject(doc, { selected: false, saved: true })
+        );
+        store.dispatch("setNotepads", items);
       },
-      err => {
+      (err) => {
         cl(err);
-      },
+      }
     );
 });
 
@@ -78,7 +80,6 @@ onUnmounted(() => {
   <div class="d-flex vw-100 vh-100 flex-column">
     <Navbar />
     <div class="d-flex">
-
       <NotepadList />
 
       <div v-if="!isNotepadSelected" class="d-flex justify-content-center align-items-center w-75 sp-editor-container text-muted">
@@ -86,7 +87,11 @@ onUnmounted(() => {
       </div>
 
       <div v-if="isNotepadSelected" class="w-75 sp-editor-container">
-        <Editor :content="content" :debounce="2000" @update:content="onContentChange" @debounce:content="onContentDebounce" />
+        <Editor
+          :content="content"
+          :debounce="2000"
+          @update:content="onContentChange"
+          @debounce:content="onContentDebounce" />
       </div>
     </div>
   </div>

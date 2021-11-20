@@ -51,38 +51,32 @@ const onSubmit = handleSubmit(async (values) => {
         <AppAuthLogo />
 
         <div class="form-floating mb-3">
-          <input
-            type="email"
+          <input type="email"
             id="email"
             class="form-control"
             placeholder="name@example.com"
             v-model.trim="email"
-            :disabled="isSubmitting"
-          />
+            :disabled="isSubmitting" />
           <label for="email">Email address</label>
           <div class="form-text text-danger">{{ emailError }}</div>
         </div>
         <div class="form-floating mb-3">
-          <input
-            type="password"
+          <input type="password"
             class="form-control"
             id="password"
             placeholder="Password"
             v-model.trim="password"
-            :disabled="isSubmitting"
-          />
+            :disabled="isSubmitting" />
           <label for="password">Password</label>
           <div class="form-text text-danger">{{ passwordError }}</div>
         </div>
 
         <div class="form-check mb-3">
-          <input
-            type="checkbox"
+          <input type="checkbox"
             class="form-check-input"
             id="remember"
             v-model="remember"
-            :disabled="isSubmitting"
-          />
+            :disabled="isSubmitting" />
           <label class="form-check-label" for="remember">
             Remember me
           </label>
@@ -91,8 +85,7 @@ const onSubmit = handleSubmit(async (values) => {
         <button
           type="submit"
           class="btn btn-primary btn-lg w-100 mt-3"
-          v-on:click="onSubmit"
-        >
+          v-on:click="onSubmit">
           Sign In
         </button>
 

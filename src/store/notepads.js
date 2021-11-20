@@ -14,9 +14,10 @@ export default {
   }),
   getters: {
     content: state => state.content,
-    notepad: state => state.notepads == null ? null : state.notepads.find(n => n.current == true),
+    notepad: state => state.notepads == null ? null : state.notepads.find(n => n.selected == true),
     notepads: state => state.notepads,
     notepadId: (state, getters) => getters.notepad == null ? null : getters.notepad.id,
+    saved: (state, getters) => state.notepads?.find(n => !n.saved) == null,
     anyRequest: (state) => state.requests.length > 0,
   },
   mutations: {
@@ -61,10 +62,10 @@ export default {
     },
     selectNotepad({ commit }, payload) {
       commit("setId", payload);
-      commit("updateNotepads", { current: false });
+      commit("updateNotepads", { selected: false });
 
       if (payload != null) {
-        commit("updateNotepad", { id: payload, current: true });
+        commit("updateNotepad", { id: payload, selected: true });
       }
     },
     selectNotepadWithContent({ state, commit, dispatch }, payload) {
